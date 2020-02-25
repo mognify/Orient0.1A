@@ -31,6 +31,31 @@ public class KeyboardController implements ClipboardOwner{
 		return;
 	}
 	
+	protected static void paste(String text)  throws AWTException{
+		Orient.print("Pasting: " + text);
+
+		Robot robot = new Robot();
+		for(int i = 0; i < text.length(); i++) {
+			type(robot, text.charAt(i));
+		}
+		
+	}
+	
+	protected static void type(Robot r, char c){
+        r.keyPress(KeyEvent.VK_ALT);
+        r.keyPress(KeyEvent.VK_NUMPAD0);
+        r.keyRelease(KeyEvent.VK_NUMPAD0);
+        String altCode=Integer.toString(c);
+        for(int i=0;i<altCode.length();i++){
+            c=(char)(altCode.charAt(i)+'0');
+            //delay(20);//may be needed for certain applications
+            r.keyPress(c);
+            //delay(20);//uncomment if necessary
+            r.keyRelease(c);
+        }
+        r.keyRelease(KeyEvent.VK_ALT);
+    }
+	
 	protected static void backspace() throws AWTException{
 		Robot robot = new Robot();
 		robot.keyPress(KeyEvent.VK_BACK_SPACE);
@@ -77,7 +102,7 @@ public class KeyboardController implements ClipboardOwner{
 		return;
 	}
 
-	public void paste(String substring) throws AWTException, InterruptedException, UnsupportedFlavorException, IOException {
+/*public void paste(String substring) throws AWTException, InterruptedException, UnsupportedFlavorException, IOException {
 		Orient.print("\npaste(" + substring + ")\n");
 		//StringSelection stringSelection = new StringSelection(substring);
 
@@ -88,17 +113,17 @@ public class KeyboardController implements ClipboardOwner{
 			Orient.print("Clipboard contents are: " + temp);
 		}else {
 			Orient.print("Clipboard contained an image. It's gone now.");
-		}
+		}*/
 		/*clipboard.getData(DataFlavor.stringFlavor);
 		Orient.print("String temp = (String) clipboard.getData(DataFlavor.stringFlavor)");
 		String temp = (String) clipboard.getData(DataFlavor.stringFlavor); */
-		setClipboard(substring);
+/*setClipboard(substring);
 		paste();
 		setClipboard(temp);
 		
 		Orient.print("\nLeaving paste(String)\n");
 		return;
-	}
+	}*/
 	
 private void setClipboard(String substring) throws UnsupportedFlavorException, IOException {
 	Orient.print("\nsetClipboard(" + substring + ")");
